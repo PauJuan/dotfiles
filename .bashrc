@@ -43,7 +43,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+# force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -57,11 +57,13 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]$(__git_ps1)\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(__git_ps1)\$ '
 fi
 unset color_prompt force_color_prompt
+# To make prompt change color depending on git status:
+# https://gist.github.com/hugorodgerbrown/4143150
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -121,7 +123,7 @@ fi
 # Function to use the series bash script
 series () {
   # Call script
-  bash /home/paupau/Scripts/series.sh "$@"
+  bash /home/paupau/Repositories/bash-series/series.sh "$@"
 }
 
 # Function to use the movies bash script
@@ -139,6 +141,12 @@ sudo apt-get -y autoremove
 sudo apt-get autoclean
 echo -e "\n$(date "+%T") \t Script Terminated"
 }
+
+# Git aliases
+alias gt='git status'
+alias gd='git diff'
+alias gb='git branch'
+alias gs='git show'
 
 # Micelanea
 alias home='cd /home/paupau'
