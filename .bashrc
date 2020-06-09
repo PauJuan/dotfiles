@@ -144,9 +144,9 @@ echo -e "\n$(date "+%T") \t Script Terminated"
 
 # Git aliases
 alias gt='git status'
-alias gd='git diff'
+alias gd='git diff --ignore-space-at-eol'
 alias gb='git branch'
-alias gs='git show'
+alias gs='git show --ignore-space-at-eol'
 
 # Micelanea
 alias home='cd /home/paupau'
