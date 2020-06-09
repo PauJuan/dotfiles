@@ -101,9 +101,13 @@ let g:jedi#popup_select_first = 1 "Tell jedi to autocomplete with first item
 let g:jedi#use_tabs_not_buffers = 1 "Make jedi-vim use tabs when going to a definition
 let g:jedi#smart_auto_mappings = 1 "jedi will automatically add the import statement
 
-"Ignore messages for current project
+" Ignore messages for current project
 let g:syntastic_python_pylint_quiet_messages = { 'regex': ['bad-continuation',
                                                          \ 'invalid-name'] } 
+							 
+" Disable length checking for python
+let g:syntastic_python_pylint_post_args="--max-line-length=120"
+let g:syntastic_python_flake8_post_args="--max-line-length=120"
 
 " A mapping to toggle syntastic
 silent! nmap <F6> :SyntasticToggleMode<CR>
