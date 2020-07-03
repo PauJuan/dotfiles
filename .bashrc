@@ -144,9 +144,9 @@ echo -e "\n$(date "+%T") \t Script Terminated"
 
 # Git aliases
 alias gt='git status'
-alias gd='git diff --ignore-space-at-eol'
+alias gd='git diff'
 alias gb='git branch'
-alias gs='git show --ignore-space-at-eol'
+alias gs='git show'
 
 # Micelanea
 alias home='cd /home/paupau'
@@ -158,10 +158,11 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias space="du -hs * | sort -rh | head -10"
 alias Space="du -Sh * | sort -rh | head -10"
+alias open="gio open"
 
 # fortune cookie
-fortune | cowsay -f stegosaurus
-# fortune -a | fmt -80 -s | $(shuf -n 1 -e cowsay cowthink) -$(shuf -n 1 -e b d g p s t w y) -f $(shuf -n 1 -e $(cowsay -l | tail -n +2)) -n
+fortune | cowsay -f stegosaurus 
+# fortune -a | fmt -80 -s | $(shuf -n 1 -e cowsay cowthink) -$(shuf -n 1 -e b d g p s t w y) -f $(shuf -n 1 -e $(cowsay -l | tail -n +2)) -n | lolcat
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
