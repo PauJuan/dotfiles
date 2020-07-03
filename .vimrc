@@ -101,13 +101,9 @@ let g:jedi#popup_select_first = 1 "Tell jedi to autocomplete with first item
 let g:jedi#use_tabs_not_buffers = 1 "Make jedi-vim use tabs when going to a definition
 let g:jedi#smart_auto_mappings = 1 "jedi will automatically add the import statement
 
-" Ignore messages for current project
+"Ignore messages for current project
 let g:syntastic_python_pylint_quiet_messages = { 'regex': ['bad-continuation',
                                                          \ 'invalid-name'] } 
-							 
-" Disable length checking for python
-let g:syntastic_python_pylint_post_args="--max-line-length=120"
-let g:syntastic_python_flake8_post_args="--max-line-length=120"
 
 " A mapping to toggle syntastic
 silent! nmap <F6> :SyntasticToggleMode<CR>
@@ -226,28 +222,28 @@ syntax enable
 " Set background
 set background=dark
 
-" Set colorscheme depending on terminal or gui (font, size, etc.)
+" Set options depending on terminal or gui (font, size, etc.)
+" https://stackoverflow.com/questions/15375992/vim-difference-between-t-co-256-and-term-xterm-256color-in-conjunction-with-tmu
 if has("gui_running")
     set guifont=Inconsolata\ 10
     set guioptions-=m "remove menu bar
     set guioptions-=T "remove toolbar
     set guioptions-=e "use text-only tabline
-    set t_Co=256
     set guitablabel=%M\ %t
     colorscheme solarized
     " set guioptions-=r  "remove right-hand scroll bar
     " set guioptions-=L  "remove left-hand scroll bar
 else
-    set term=xterm
-    set t_Co=256
-    let &t_AB="\e[48;5;%dm"
-    let &t_AF="\e[38;5;%dm"
-    set termencoding=utf8
     set nocompatible
-    inoremap <Char-0x07F> <BS>
-    nnoremap <Char-0x07F> <BS>
+    " set term=xterm
+    " set t_Co=256
+    " let &t_AB="\e[48;5;%dm"
+    " let &t_AF="\e[38;5;%dm"
+    " set termencoding=utf8
+    " inoremap <Char-0x07F> <BS>
+    " nnoremap <Char-0x07F> <BS>
     let g:solarized_termtrans = 1
-    colorscheme desert
+    colorscheme solarized
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -444,7 +440,7 @@ map <leader>s? z=
 " map <leader>x :e ~/buffer.md<cr>
 
 " alias the "anonymous" register as the * register 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " Toggle paste mode on and off
 set pastetoggle=<F2>
