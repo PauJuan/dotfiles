@@ -37,11 +37,11 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+    xterm-color|*-256color|screen) 
+        color_prompt=yes
+        force_color_prompt=yes  # To ensure tmux has color prompt
+        ;;
 esac
-
-# To ensure tmux has color prompt
-force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -62,15 +62,6 @@ fi
 unset color_prompt force_color_prompt
 # To make prompt change color depending on git status:
 # https://gist.github.com/hugorodgerbrown/4143150
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
