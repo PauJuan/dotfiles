@@ -40,10 +40,8 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-# force_color_prompt=yes
+# To ensure tmux has color prompt
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -153,12 +151,17 @@ alias home='cd /home/paupau'
 alias weather='curl wttr.in'
 alias moon='curl wttr.in/Moon'
 alias rm="rm -I"
-alias bashrc="cd; vim .bashrc"
+alias bashrc="cd; gvim .bashrc"
 alias ..='cd ..'
 alias ...='cd ../..'
 alias space="du -hs * | sort -rh | head -10"
 alias Space="du -Sh * | sort -rh | head -10"
 alias open="gio open"
+
+# Backup
+backup_documents() {
+rsync -av "/home/paupau/Documents/" "/media/paupau/Seagate Expansion Drive/paupau/Documents"
+}
 
 # fortune cookie
 fortune | cowsay -f stegosaurus 
