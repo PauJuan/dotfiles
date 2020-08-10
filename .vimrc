@@ -3,10 +3,10 @@
 "       Pau Juan Garcia 
 "
 " Version:
-" 		0.2 -10/04/2020
+" 		1.1 - 08/02/2019
 "
 " Sections:
-"    -> Vundle (manage plugins)
+"    -> Vim-Plug (manage plugins)
 "    -> General
 "    -> VIM user interface
 "    -> Colors and Fonts
@@ -29,41 +29,30 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=$HOME/.vim/bundle/Vundle.vim/
-"pass a path where Vundle should install plugins
-call vundle#begin('$HOME/.vim/bundle/')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
 " Insert desired plugins
-Plugin 'tpope/vim-commentary'   "Commenting code easily
-Plugin 'tpope/vim-sensible'     "Sensible .vimrc settings
-Plugin 'tpope/vim-surround'     "Edit tags and surroundings easily
-Plugin 'tpope/vim-repeat'       "Enhancing the dot key for plugins
-Plugin 'tpope/vim-fugitive'     "Awesome Git Wrapper
-Plugin 'tpope/vim-dispatch'     "Run servers with Vim
-Plugin 'tpope/vim-unimpaired'   "Complementary pairs of mappings
-Plugin 'scrooloose/nerdtree'    "Explore filetrees nicely
-Plugin 'itchyny/lightline.vim'  "Practical and light status line
-Plugin 'ervandew/supertab'      "Autocompletion using tab
-Plugin 'kien/ctrlp.vim'         "Awesome fuzzy file finder
-Plugin 'scrooloose/syntastic'   "Syntax checking
-Plugin 'davidhalter/jedi-vim'   "Autocompletion for python
-" Plugin 'OmniSharp/omnisharp-vim' "Code completion and syntastic checker for csharp
-
-" Some popular colorschemes
-" Plugin 'morhetz/gruvbox' "Retro groove colorscheme
-Plugin 'altercation/vim-colors-solarized' "Nice colorscheme for the console version
+Plug 'tpope/vim-commentary'   "Commenting code easily
+Plug 'tpope/vim-sensible'     "Sensible .vimrc settings
+Plug 'tpope/vim-surround'     "Edit tags and surroundings easily
+Plug 'tpope/vim-repeat'       "Enhancing the dot key for plugins
+Plug 'tpope/vim-fugitive'     "Awesome Git Wrapper
+Plug 'tpope/vim-dispatch'     "Run servers with Vim
+Plug 'tpope/vim-unimpaired'   "Complementary pairs of mappings
+Plug 'scrooloose/nerdtree'    "Explore filetrees nicely
+Plug 'itchyny/lightline.vim'  "Practical and light status line
+Plug 'ervandew/supertab'      "Autocompletion using tab
+Plug 'kien/ctrlp.vim'         "Awesome fuzzy file finder
+Plug 'scrooloose/syntastic'   "Syntax checking
+Plug 'davidhalter/jedi-vim'   "Autocompletion for python
+Plug 'altercation/vim-colors-solarized' "Nice colorscheme for the console version
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-
-" Start pathogen (Not used if Vundle)
-"call pathogen#infect()
-"call pathogen#helptags()
+" Initialize plugin system
+call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -100,12 +89,13 @@ let g:syntastic_aggregate_errors = 1 "Tell syntastic to aggregate errors from al
 let g:jedi#popup_select_first = 1 "Tell jedi to autocomplete with first item
 let g:jedi#use_tabs_not_buffers = 1 "Make jedi-vim use tabs when going to a definition
 let g:jedi#smart_auto_mappings = 1 "jedi will automatically add the import statement
+set completeopt=menuone,longest,preview
 
-" Ignore messages for current project
+"Ignore messages for current project
 let g:syntastic_python_pylint_quiet_messages = { 'regex': ['bad-continuation',
                                                          \ 'invalid-name'] } 
 
-" Disable length checking for python
+"Disable length checking for python
 let g:syntastic_python_pylint_post_args="--max-line-length=120"
 let g:syntastic_python_flake8_post_args="--max-line-length=120"
 
@@ -120,7 +110,7 @@ silent! nmap <F6> :SyntasticToggleMode<CR>
 
 "Toggle colorscheme with F5 (only with solarized plugin)
 call togglebg#map("<F5>")
-" TODO Try to toggle the lightline theme as well (https://github.com/itchyny/lightline.vim/issues/178)
+" NOTE to toggle the lightline theme as well (https://github.com/itchyny/lightline.vim/issues/178)
 " https://blog.sleeplessbeastie.eu/2018/05/21/how-to-integrate-lightline-status-line-plugin-for-vim-with-solarized-theme/
 " https://github.com/itchyny/lightline.vim/issues/104
 
@@ -223,31 +213,31 @@ set foldcolumn=1
 " Enable syntax highlighting
 syntax enable
 
-" Set background
+" Set background (dark/light)
 set background=dark
 
-" Set options depending on terminal or gui (font, size, etc.)
-" https://stackoverflow.com/questions/15375992/vim-difference-between-t-co-256-and-term-xterm-256color-in-conjunction-with-tmu
+" Set colorscheme depending on terminal or gui (font, size, etc.)
 if has("gui_running")
-    set guifont=Inconsolata\ 10
+    set guifont=Consolas:h12
     set guioptions-=m "remove menu bar
     set guioptions-=T "remove toolbar
-    set guioptions-=e "use text-only tabline
-    set guitablabel=%M\ %t
-    colorscheme solarized
     " set guioptions-=r  "remove right-hand scroll bar
     " set guioptions-=L  "remove left-hand scroll bar
-else
-    set nocompatible
-    " set term=xterm
-    " set t_Co=256
-    " let &t_AB="\e[48;5;%dm"
-    " let &t_AF="\e[38;5;%dm"
-    " set termencoding=utf8
-    " inoremap <Char-0x07F> <BS>
-    " nnoremap <Char-0x07F> <BS>
-    let g:solarized_termtrans = 1
+    set guioptions-=e "use text-only tabline
+    set t_Co=256
+    set guitablabel=%M\ %t
     colorscheme solarized
+else
+    set term=xterm
+    set t_Co=256
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
+    set termencoding=utf8
+    set nocompatible
+    inoremap <Char-0x07F> <BS>
+    nnoremap <Char-0x07F> <BS>
+    let g:solarized_termtrans = 1
+    colorscheme desert
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -300,10 +290,10 @@ set si "Smart indent
 set wrap "Wrap lines
 
 " Set up different indentation settings for specific files
-au BufNewFile,BufRead *.js,*.html,*.css,*.tex,*.sh set
-            \ tabstop=2
-            \ softtabstop=2
-            \ shiftwidth=2
+au BufNewFile,BufRead *.js, *.html, *.css, *.tex
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -444,7 +434,7 @@ map <leader>s? z=
 " map <leader>x :e ~/buffer.md<cr>
 
 " alias the "anonymous" register as the * register 
-set clipboard=unnamedplus
+set clipboard=unnamed
 
 " Toggle paste mode on and off
 set pastetoggle=<F2>
@@ -515,3 +505,5 @@ endfunction
 "         execute("bdelete! ".l:currentBufNum)
 "     endif
 " endfunction
+
+
