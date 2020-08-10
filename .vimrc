@@ -3,7 +3,7 @@
 "       Pau Juan Garcia 
 "
 " Version:
-" 		1.1 - 08/02/2019
+" 		2.0 - 10/08/2020
 "
 " Sections:
 "    -> Vim-Plug (manage plugins)
@@ -21,14 +21,10 @@
 "    -> Misc
 "    -> Helper functions
 "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vundle (manage plugins)
+" => Vim-Plug
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
@@ -45,10 +41,12 @@ Plug 'tpope/vim-unimpaired'   "Complementary pairs of mappings
 Plug 'scrooloose/nerdtree'    "Explore filetrees nicely
 Plug 'itchyny/lightline.vim'  "Practical and light status line
 Plug 'ervandew/supertab'      "Autocompletion using tab
-Plug 'kien/ctrlp.vim'         "Awesome fuzzy file finder
+Plug 'ctrlpvim/ctrlp.vim'     "Awesome fuzzy file finder
 Plug 'scrooloose/syntastic'   "Syntax checking
 Plug 'davidhalter/jedi-vim'   "Autocompletion for python
 Plug 'altercation/vim-colors-solarized' "Nice colorscheme for the console version
+Plug 'tpope/vim-sleuth'       "Automatic indent related configuration
+Plug 'jiangmiao/auto-pairs'   "Insert or delete brackets, parens, quotes in pairs
 
 " All of your Plugins must be added before the following line
 " Initialize plugin system
@@ -57,9 +55,6 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Add folders to path
-" set path+='C:\Users\GARC7680\.vim'
-
 " Select python-mode
 let g:pymode_python = 'python3'
 
@@ -73,6 +68,7 @@ let g:ctrlp_prompt_mappings = {
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
 " let b:syntastic_mode="passive"
 let g:syntastic_mode_map = { 'mode': 'passive',
                             \ 'active_filetypes': ['html', 'javascript'],
@@ -83,7 +79,10 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_cs_checkers = ['code_checker']
 let g:syntastic_aggregate_errors = 1 "Tell syntastic to aggregate errors from all checkers
-" let g:syntastic_debug=1 "In case it needs to be debugged
+
+"Disable length checking for python
+let g:syntastic_python_pylint_post_args="--max-line-length=120"
+let g:syntastic_python_flake8_post_args="--max-line-length=120"
 
 " Set up Jedi
 let g:jedi#popup_select_first = 1 "Tell jedi to autocomplete with first item
@@ -95,28 +94,14 @@ set completeopt=menuone,longest,preview
 let g:syntastic_python_pylint_quiet_messages = { 'regex': ['bad-continuation',
                                                          \ 'invalid-name'] } 
 
-"Disable length checking for python
-let g:syntastic_python_pylint_post_args="--max-line-length=120"
-let g:syntastic_python_flake8_post_args="--max-line-length=120"
-
 " A mapping to toggle syntastic
 silent! nmap <F6> :SyntasticToggleMode<CR>
-
-" Set up Omnisharp
-" let g:OmniSharp_server_path = 'C:\Users\GARC7680\.omnisharp\omnisharp.http-win-x64\OmniSharp.exe'
-" let g:OmniSharp_translate_cygwin_wsl = 1
-" let g:OmniSharp_proc_debug = 1
-" let g:OmniSharp_loglevel = 'debug'
 
 "Toggle colorscheme with F5 (only with solarized plugin)
 call togglebg#map("<F5>")
 " NOTE to toggle the lightline theme as well (https://github.com/itchyny/lightline.vim/issues/178)
 " https://blog.sleeplessbeastie.eu/2018/05/21/how-to-integrate-lightline-status-line-plugin-for-vim-with-solarized-theme/
 " https://github.com/itchyny/lightline.vim/issues/104
-
-" Set python dll manually
-"let &pythonthreedll='C:\\Users\\Pau\\Miniconda3\\python36.dll'
-" set pythonthreedll='C:\Users\GARC7680\AppData\Local\Continuum\anaconda3\python37.dll'
 
 " Sets how many lines of history VIM has to remember
 set history=500
@@ -131,10 +116,6 @@ let mapleader = "\<Space>"
 " Fast saving
 nmap <leader>w :w!<cr>
 
-" :W sudo saves the file 
-" (useful for handling the permission-denied error)
-" command W w !sudo tee % > /dev/null
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -144,8 +125,6 @@ set so=7
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
 set langmenu=en
-" source $VIMRUNTIME/delmenu.vim
-" source $VIMRUNTIME/menu.vim
 
 " Turn on the Wild menu
 set wildmenu
@@ -160,7 +139,6 @@ endif
 
 " Highlight cursor line and set color.
 set cursorline
-" :highlight CursorLine ctermbg=NONE
 
 " Ruler (line, column and % at the right bottom).
 set ruler
@@ -170,10 +148,6 @@ set cmdheight=2
 
 " A buffer becomes hidden when it is abandoned
 set hid
-
-" Configure backspace so it acts as it should act
-" set backspace=eol,start,indent
-" set whichwrap+=<,>,h,l
 
 " Ignore case when searching
 set ignorecase
@@ -221,22 +195,22 @@ if has("gui_running")
     set guifont=Consolas:h12
     set guioptions-=m "remove menu bar
     set guioptions-=T "remove toolbar
+    set guioptions-=e "use text-only tabline
+    set guitablabel=%M\ %t
     " set guioptions-=r  "remove right-hand scroll bar
     " set guioptions-=L  "remove left-hand scroll bar
-    set guioptions-=e "use text-only tabline
-    set t_Co=256
-    set guitablabel=%M\ %t
+    " set t_Co=256
     colorscheme solarized
 else
-    set term=xterm
-    set t_Co=256
-    let &t_AB="\e[48;5;%dm"
-    let &t_AF="\e[38;5;%dm"
-    set termencoding=utf8
     set nocompatible
-    inoremap <Char-0x07F> <BS>
-    nnoremap <Char-0x07F> <BS>
-    let g:solarized_termtrans = 1
+    " set term=xterm
+    " set t_Co=256
+    " let &t_AB="\e[48;5;%dm"
+    " let &t_AF="\e[38;5;%dm"
+    " set termencoding=utf8
+    " inoremap <Char-0x07F> <BS>
+    " nnoremap <Char-0x07F> <BS>
+    " let g:solarized_termtrans = 1
     colorscheme desert
 endif
 
@@ -252,12 +226,6 @@ augroup pythontoolbox
 	au!
 	autocmd BufNewFile,BufRead *.pyt set syntax=python
 augroup END
-
-" Set syntax coloring for XAML
-au BufNewFile,BufRead *.xaml setf xml
-
-" Set syntax textwidth for python files 
-au BufNewFile,BufRead *.py set tw=80
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -295,6 +263,12 @@ au BufNewFile,BufRead *.js, *.html, *.css, *.tex
     \ set softtabstop=2
     \ set shiftwidth=2
 
+" Set syntax coloring for XAML
+au BufNewFile,BufRead *.xaml setf xml
+
+" Set syntax textwidth for python files 
+au BufNewFile,BufRead *.py set tw=80
+
 """"""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
@@ -302,37 +276,18 @@ au BufNewFile,BufRead *.js, *.html, *.css, *.tex
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-" vnoremap <silent> * :call VisualSelection('f', '')<CR>
-" vnoremap <silent> # :call VisualSelection('b', '')<CR>
+
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
-
 " Smart way to move between windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
-
-" Close the current buffer
-" map <leader>bd :Bclose<cr>:tabclose<cr>gT
-
-" Close all the buffers
-" map <leader>ba :bufdo bd<cr>
-
-" Move through buffers (better use shortcuts from vim-unimpaired)
-" map <leader>l :bnext<cr>
-" map <leader>h :bprevious<cr>
-
-" Useful mappings for managing tabs
-" map <leader>tn :tabnew<cr>
-" map <leader>to :tabonly<cr>
-" map <leader>tc :tabclose<cr>
-" map <leader>tm :tabmove 
-" map <leader>t<leader> :tabnext 
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -340,12 +295,11 @@ nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
 " Opens a new tab with the current buffer's path
-" Super useful when editing files in the same directory
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/<CR>
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
-"
+
 " Map CtrlP buffer mode to Ctrl + B.
 nnoremap <C-b> :CtrlPBuffer<cr> 
 
@@ -387,15 +341,6 @@ let g:lightline = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remap VIM 0 to first non-blank character
-" map 0 ^
-
-" Move a line of text using ALT+[jk] or Command+[jk] on mac (also vim-unimpaired)
-" nmap <M-j> mz:m+<cr>`z
-" nmap <M-k> mz:m-2<cr>`z
-" vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-" vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
 " Delete trailing white space on save, useful for some filetypes ;)
 fun! CleanExtraSpaces()
     let save_cursor = getpos(".")
@@ -425,10 +370,7 @@ map <leader>s? z=
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
-"noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
-" Quickly open a buffer for scribble
-"map <leader>q :e ~/buffer<cr>
+" noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a markdown buffer for scribble
 " map <leader>x :e ~/buffer.md<cr>
@@ -474,36 +416,3 @@ endfunction
 function! CmdLine(str)
     call feedkeys(":" . a:str)
 endfunction 
-
-" Returns true if paste mode is enabled (not necessary the way I format 
-" the status line now
-"
-" function! HasPaste()
-"     if &paste
-"         return 'PASTE MODE  '
-"     endif
-"     return ''
-" endfunction
-
-" Don't close window, when deleting a buffer
-" command! Bclose call <SID>BufcloseCloseIt()
-" function! <SID>BufcloseCloseIt()
-"     let l:currentBufNum = bufnr("%")
-"     let l:alternateBufNum = bufnr("#")
-
-"     if buflisted(l:alternateBufNum)
-"         buffer #
-"     else
-"         bnext
-"     endif
-
-"     if bufnr("%") == l:currentBufNum
-"         new
-"     endif
-
-"     if buflisted(l:currentBufNum)
-"         execute("bdelete! ".l:currentBufNum)
-"     endif
-" endfunction
-
-
