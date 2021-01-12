@@ -41,7 +41,9 @@ Plug 'tpope/vim-unimpaired'   "Complementary pairs of mappings
 Plug 'scrooloose/nerdtree'    "Explore filetrees nicely
 Plug 'itchyny/lightline.vim'  "Practical and light status line
 Plug 'ervandew/supertab'      "Autocompletion using tab
-Plug 'ctrlpvim/ctrlp.vim'     "Awesome fuzzy file finder
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'       "Awesome fuzzy file finder
+Plug 'mileszs/ack.vim'        "Search tool from Vim, with an enhanced results list
 Plug 'scrooloose/syntastic'   "Syntax checking
 Plug 'davidhalter/jedi-vim'   "Autocompletion for python
 Plug 'altercation/vim-colors-solarized' "Nice colorscheme for the console version
@@ -55,14 +57,31 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Select python-mode
-let g:pymode_python = 'python3'
+" To get Python3 working, install GVim, then install a python version that matches the 
+" build (e.g. 64 bit) and the version used to compile vim. It is also necessary to add 
+" to the Path the env folder, and set the PythonPath to the python library
+let $Path = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38;".$Path
+let $PYTHONPATH = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\Lib"
+" other python related options
+" let g:pymode_python = 'python3'
+" set pythondll=""
+" set pythonthreedll=""
+" let g:jedi#force_py_version = 3
+
+" Start fzf like ctrlp
+nmap <C-P> :Files<CR>
+nmap <C-B> :Buffers<CR>
+" Configure fzf preview window
+let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-/']
+
+" Possible fzf config
+" https://github.com/junegunn/fzf.vim/issues/1104
 
 " Make CtrlP open files in a new tab
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
-    \ 'AcceptSelection("t")': ['<cr>'],
-    \ }
+" let g:ctrlp_prompt_mappings = {
+"     \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
+"     \ 'AcceptSelection("t")': ['<cr>'],
+"     \ }
 
 " Set up Syntastic
 set statusline+=%#warningmsg#
@@ -111,7 +130,7 @@ set autoread
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
-let mapleader = "\<Space>"
+let mapleader="\<Space>"
 
 " Fast saving
 nmap <leader>w :w!<cr>
@@ -299,9 +318,6 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/<CR>
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
-
-" Map CtrlP buffer mode to Ctrl + B.
-nnoremap <C-b> :CtrlPBuffer<cr> 
 
 " Specify the behavior when switching between buffers 
 try
