@@ -31,24 +31,25 @@
 call plug#begin('~/.vim/plugged')
 
 " Insert desired plugins
-Plug 'tpope/vim-commentary'   "Commenting code easily
-Plug 'tpope/vim-sensible'     "Sensible .vimrc settings
-Plug 'tpope/vim-surround'     "Edit tags and surroundings easily
-Plug 'tpope/vim-repeat'       "Enhancing the dot key for plugins
-Plug 'tpope/vim-fugitive'     "Awesome Git Wrapper
-Plug 'tpope/vim-dispatch'     "Run servers with Vim
-Plug 'tpope/vim-unimpaired'   "Complementary pairs of mappings
-Plug 'scrooloose/nerdtree'    "Explore filetrees nicely
-Plug 'itchyny/lightline.vim'  "Practical and light status line
-Plug 'ervandew/supertab'      "Autocompletion using tab
+Plug 'tpope/vim-commentary'                 "Commenting code easily
+Plug 'tpope/vim-sensible'                   "Sensible .vimrc settings
+Plug 'tpope/vim-surround'                   "Edit tags and surroundings easily
+Plug 'tpope/vim-repeat'                     "Enhancing the dot key for plugins
+Plug 'tpope/vim-fugitive'                   "Awesome Git Wrapper
+Plug 'tpope/vim-dispatch'                   "Run servers with Vim
+Plug 'tpope/vim-unimpaired'                 "Complementary pairs of mappings
+Plug 'scrooloose/nerdtree'                  "Explore filetrees nicely
+Plug 'itchyny/lightline.vim'                "Practical and light status line
+Plug 'ervandew/supertab'                    "Autocompletion using tab
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'       "Awesome fuzzy file finder
-Plug 'mileszs/ack.vim'        "Search tool from Vim, with an enhanced results list
-Plug 'scrooloose/syntastic'   "Syntax checking
-Plug 'davidhalter/jedi-vim'   "Autocompletion for python
-Plug 'altercation/vim-colors-solarized' "Nice colorscheme for the console version
-Plug 'tpope/vim-sleuth'       "Automatic indent related configuration
-Plug 'jiangmiao/auto-pairs'   "Insert or delete brackets, parens, quotes in pairs
+Plug 'junegunn/fzf.vim'                     "Awesome fuzzy file finder
+Plug 'scrooloose/syntastic'                 "Syntax checking
+Plug 'davidhalter/jedi-vim'                 "Autocompletion for python
+Plug 'altercation/vim-colors-solarized'     "Nice colorscheme for the console version
+Plug 'tpope/vim-sleuth'                     "Automatic indent related configuration
+Plug 'jiangmiao/auto-pairs'                 "Insert or delete brackets, parens, quotes in pairs
+Plug 'JuliaEditorSupport/julia-vim'         "Support for the Julia programming language
+" Plug 'cjrh/vim-conda'                       "Consider this one!
 
 " All of your Plugins must be added before the following line
 " Initialize plugin system
@@ -68,9 +69,16 @@ let $PYTHONPATH = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\en
 " set pythonthreedll=""
 " let g:jedi#force_py_version = 3
 
+" Set up fzf
 " Start fzf like ctrlp
 nmap <C-P> :Files<CR>
 nmap <C-B> :Buffers<CR>
+nmap <C-L> :Lines<CR>
+nmap <C-T> :Tags<CR>
+
+" [Tags] Command to generate tags file
+let g:fzf_tags_command = 'ctags -R'
+
 " Configure fzf preview window
 let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-/']
 
@@ -98,16 +106,13 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_cs_checkers = ['code_checker']
 let g:syntastic_aggregate_errors = 1 "Tell syntastic to aggregate errors from all checkers
+let g:syntastic_python_checkers = ['flake8', 'pylint']  "Set specific linters only
+" let g:syntastic_python_flake8_exec = 'C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\python.exe'
+" let g:syntastic_python_flake8_exec = 'C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\python.exe'
 
-"Disable length checking for python
+"Increase length checking for python
 let g:syntastic_python_pylint_post_args="--max-line-length=120"
 let g:syntastic_python_flake8_post_args="--max-line-length=120"
-
-" Set up Jedi
-let g:jedi#popup_select_first = 1 "Tell jedi to autocomplete with first item
-let g:jedi#use_tabs_not_buffers = 1 "Make jedi-vim use tabs when going to a definition
-let g:jedi#smart_auto_mappings = 1 "jedi will automatically add the import statement
-set completeopt=menuone,longest,preview
 
 "Ignore messages for current project
 let g:syntastic_python_pylint_quiet_messages = { 'regex': ['bad-continuation',
@@ -116,6 +121,13 @@ let g:syntastic_python_pylint_quiet_messages = { 'regex': ['bad-continuation',
 " A mapping to toggle syntastic
 silent! nmap <F6> :SyntasticToggleMode<CR>
 
+" Set up Jedi
+let g:jedi#popup_select_first = 1 "Tell jedi to autocomplete with first item
+let g:jedi#use_tabs_not_buffers = 1 "Make jedi-vim use tabs when going to a definition
+let g:jedi#smart_auto_mappings = 1 "jedi will automatically add the import statement
+set completeopt=menuone,longest,preview
+
+" Set up solarized
 "Toggle colorscheme with F5 (only with solarized plugin)
 call togglebg#map("<F5>")
 " NOTE to toggle the lightline theme as well (https://github.com/itchyny/lightline.vim/issues/178)
