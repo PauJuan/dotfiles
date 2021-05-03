@@ -49,6 +49,7 @@ Plug 'altercation/vim-colors-solarized'     "Nice colorscheme for the console ve
 Plug 'tpope/vim-sleuth'                     "Automatic indent related configuration
 Plug 'jiangmiao/auto-pairs'                 "Insert or delete brackets, parens, quotes in pairs
 Plug 'JuliaEditorSupport/julia-vim'         "Support for the Julia programming language
+Plug 'majutsushi/tagbar'                    "Vim plugin that displays tags in a window, ordered by scope
 " Plug 'cjrh/vim-conda'                       "Consider this one!
 
 " All of your Plugins must be added before the following line
@@ -77,7 +78,7 @@ nmap <C-L> :Lines<CR>
 nmap <C-T> :Tags<CR>
 
 " [Tags] Command to generate tags file
-let g:fzf_tags_command = 'ctags -R'
+let g:fzf_tags_command = 'ctags -R .'
 
 " Configure fzf preview window
 let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-/']
@@ -90,6 +91,10 @@ let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-/']
 "     \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
 "     \ 'AcceptSelection("t")': ['<cr>'],
 "     \ }
+
+"Set up tagbar
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_ctags_bin = 'C:\Data\Software\ctags58\ctags.exe'
 
 " Set up Syntastic
 set statusline+=%#warningmsg#
