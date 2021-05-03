@@ -148,6 +148,7 @@ alias ...='cd ../..'
 alias space="du -hs * | sort -rh | head -10"
 alias Space="du -Sh * | sort -rh | head -10"
 alias open="gio open"
+alias n.="nemo . &"
 
 # Backup
 backup_documents() {
@@ -157,6 +158,14 @@ rsync -av "/home/paupau/Documents/" "/media/paupau/Seagate Expansion Drive/paupa
 # fortune cookie
 fortune | cowsay -f stegosaurus 
 # fortune -a | fmt -80 -s | $(shuf -n 1 -e cowsay cowthink) -$(shuf -n 1 -e b d g p s t w y) -f $(shuf -n 1 -e $(cowsay -l | tail -n +2)) -n | lolcat
+
+# Bitcoin
+alias pycoin='/home/paupau/.local/bin/pycoinmon'
+alias bitcoin='coinmon -f btc'
+alias cointop='~/go/bin/cointop'
+
+# Julia
+alias julia='~/bin/julia-1.6.1/bin/julia'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -172,4 +181,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
