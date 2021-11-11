@@ -1,77 +1,71 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintainer: 
-"       Pau Juan Garcia 
+"   Pau Juan Garcia 
 "
 " Version:
-" 		2.0 - 10/08/2020
+"   2.0 - 10/08/2020
 "
 " Sections:
-"    -> Vim-Plug (manage plugins)
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
-"    -> Helper functions
-"
+"   => Plugings
+"   => Plugin configuration
+"   => Neovim configuration
+"   => Colors and Fonts
+"   => Files, backups and undo
+"   => Text, tab and indent related
+"   => Moving around, tabs, windows and buffers
+"   => Status line
+"   => Editing mappings
+"   => Spell checking
+"   => Misc
+"   => Helper functions
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vim-Plug
+" => Plugings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Initialize plugin system
 " Specify a directory for plugins
-" - For Neovim: stdpath('data') . '/plugged'
-" - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
 " Insert desired plugins
-Plug 'tpope/vim-commentary'                 "Commenting code easily
-Plug 'tpope/vim-sensible'                   "Sensible .vimrc settings
-Plug 'tpope/vim-surround'                   "Edit tags and surroundings easily
-Plug 'tpope/vim-repeat'                     "Enhancing the dot key for plugins
-Plug 'tpope/vim-fugitive'                   "Awesome Git Wrapper
-Plug 'tpope/vim-dispatch'                   "Run servers with Vim
-Plug 'tpope/vim-unimpaired'                 "Complementary pairs of mappings
-Plug 'scrooloose/nerdtree'                  "Explore filetrees nicely
-Plug 'itchyny/lightline.vim'                "Practical and light status line
-Plug 'ervandew/supertab'                    "Autocompletion using tab
+Plug 'tpope/vim-commentary'                     "Commenting code easily
+Plug 'tpope/vim-sensible'                       "Sensible .vimrc settings
+Plug 'tpope/vim-surround'                       "Edit tags and surroundings easily
+Plug 'tpope/vim-repeat'                         "Enhancing the dot key for plugins
+Plug 'tpope/vim-fugitive'                       "Awesome Git Wrapper
+Plug 'tpope/vim-dispatch'                       "Run servers with Vim (needed for other plugins)
+Plug 'tpope/vim-unimpaired'                     "Complementary pairs of mappings
+Plug 'tpope/vim-sleuth'                         "Automatic indent related configuration
+Plug 'scrooloose/nerdtree'                      "Explore filetrees nicely
+Plug 'itchyny/lightline.vim'                    "Practical and light status line
+Plug 'ervandew/supertab'                        "Autocompletion using tab
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'                     "Awesome fuzzy file finder
-Plug 'scrooloose/syntastic'                 "Syntax checking
-Plug 'davidhalter/jedi-vim'                 "Autocompletion for python
-Plug 'altercation/vim-colors-solarized'     "Nice colorscheme for the console version
-Plug 'tpope/vim-sleuth'                     "Automatic indent related configuration
-Plug 'jiangmiao/auto-pairs'                 "Insert or delete brackets, parens, quotes in pairs
-Plug 'JuliaEditorSupport/julia-vim'         "Support for the Julia programming language
-Plug 'majutsushi/tagbar'                    "Vim plugin that displays tags in a window, ordered by scope
-" Plug 'cjrh/vim-conda'                       "Consider this one!
+Plug 'junegunn/fzf.vim'                         "Awesome fuzzy file finder
+Plug 'scrooloose/syntastic'                     "Syntax checking
+Plug 'arcticicestudio/nord-vim'                 "Nice cool colorscheme
+Plug 'jiangmiao/auto-pairs'                     "Insert or delete brackets, parens, quotes in pairs
+Plug 'majutsushi/tagbar'                        "Vim plugin that displays tags in a window, ordered by scope
+Plug 'davidhalter/jedi-vim'                     "Autocompletion for python
+" Plug 'neoclide/coc.nvim', {'branch': 'release'} "Make your Vim/Neovim as smart as VSCode.
+" Plug 'fannheyward/coc-pyright'                  "Autocompletion for python
+" Plug 'lifepillar/vim-solarized8'                "Nice colorscheme
+" Plug 'JuliaEditorSupport/julia-vim'           "Support for the Julia programming language
+" Plug 'cjrh/vim-conda'                         "Consider this one!
 
 " All of your Plugins must be added before the following line
-" Initialize plugin system
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
+" => Plugin configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" To get Python3 working, install GVim, then install a python version that matches the 
+" Configure Python paths if using vim
+" To get Python3 working in GVim, install GVim then install a python version that matches the 
 " build (e.g. 64 bit) and the version used to compile vim. It is also necessary to add 
 " to the Path the env folder, and set the PythonPath to the python library
-let $Path = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38;".$Path
-let $PYTHONPATH = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\Lib"
-" other python related options
-" let g:pymode_python = 'python3'
-" set pythondll=""
-" set pythonthreedll=""
-" let g:jedi#force_py_version = 3
+" let $Path = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38;".$Path
+" let $PYTHONPATH = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\Lib"
 
-" Set up fzf
-" Start fzf like ctrlp
+" Configure fzf
+" Set up commands like ctrl-p
 nmap <C-P> :Files<CR>
 nmap <C-B> :Buffers<CR>
 nmap <C-L> :Lines<CR>
@@ -80,28 +74,14 @@ nmap <C-T> :Tags<CR>
 " [Tags] Command to generate tags file
 let g:fzf_tags_command = 'ctags -R .'
 
-" Configure fzf preview window
-let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-/']
-
-" Possible fzf config
-" https://github.com/junegunn/fzf.vim/issues/1104
-
-" Make CtrlP open files in a new tab
-" let g:ctrlp_prompt_mappings = {
-"     \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
-"     \ 'AcceptSelection("t")': ['<cr>'],
-"     \ }
-
-"Set up tagbar
+" Configure preview window
+let $PATH = "C:\\Users\\GARC7680\\AppData\\Local\\Programs\\Git\\usr\\bin;".$PATH
+let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-s']
+" Set up tagbar
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_ctags_bin = 'C:\Data\Software\ctags58\ctags.exe'
 
 " Set up Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-" let b:syntastic_mode="passive"
 let g:syntastic_mode_map = { 'mode': 'passive',
                             \ 'active_filetypes': ['html', 'javascript'],
                             \ 'passive_filetypes': ['python'] }
@@ -109,11 +89,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
-let g:syntastic_cs_checkers = ['code_checker']
 let g:syntastic_aggregate_errors = 1 "Tell syntastic to aggregate errors from all checkers
+let g:syntastic_cs_checkers = ['code_checker']
 let g:syntastic_python_checkers = ['flake8', 'pylint']  "Set specific linters only
-" let g:syntastic_python_flake8_exec = 'C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\python.exe'
-" let g:syntastic_python_flake8_exec = 'C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\python.exe'
 
 "Increase length checking for python
 let g:syntastic_python_pylint_post_args="--max-line-length=120"
@@ -131,13 +109,11 @@ let g:jedi#popup_select_first = 1 "Tell jedi to autocomplete with first item
 let g:jedi#use_tabs_not_buffers = 1 "Make jedi-vim use tabs when going to a definition
 let g:jedi#smart_auto_mappings = 1 "jedi will automatically add the import statement
 set completeopt=menuone,longest,preview
+autocmd FileType python setlocal completeopt-=preview  " No need to display the full docstring upon completion
 
-" Set up solarized
-"Toggle colorscheme with F5 (only with solarized plugin)
-call togglebg#map("<F5>")
-" NOTE to toggle the lightline theme as well (https://github.com/itchyny/lightline.vim/issues/178)
-" https://blog.sleeplessbeastie.eu/2018/05/21/how-to-integrate-lightline-status-line-plugin-for-vim-with-solarized-theme/
-" https://github.com/itchyny/lightline.vim/issues/104
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Neovim configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Sets how many lines of history VIM has to remember
 set history=500
@@ -149,12 +125,6 @@ set autoread
 " like <leader>w saves the current file
 let mapleader="\<Space>"
 
-" Fast saving
-nmap <leader>w :w!<cr>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
 
@@ -227,18 +197,17 @@ syntax enable
 set background=dark
 
 " Set colorscheme depending on terminal or gui (font, size, etc.)
-if has("gui_running")
-    set guifont=Consolas:h12
+if has("nvim") || has("gui_running")
+    set guifont=Consolas:h14
     set guioptions-=m "remove menu bar
     set guioptions-=T "remove toolbar
     set guioptions-=e "use text-only tabline
+    set guioptions-=r  "remove right-hand scroll bar
+    set guioptions-=L  "remove left-hand scroll bar
     set guitablabel=%M\ %t
-    " set guioptions-=r  "remove right-hand scroll bar
-    " set guioptions-=L  "remove left-hand scroll bar
-    " set t_Co=256
-    colorscheme solarized
+    colorscheme nord
 else
-    set nocompatible
+    " set nocompatible
     " set term=xterm
     " set t_Co=256
     " let &t_AB="\e[48;5;%dm"
@@ -246,8 +215,7 @@ else
     " set termencoding=utf8
     " inoremap <Char-0x07F> <BS>
     " nnoremap <Char-0x07F> <BS>
-    " let g:solarized_termtrans = 1
-    colorscheme desert
+    colorscheme nord
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
@@ -266,7 +234,7 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
+" Turn backup off, since most stuff is in SVN, git etc anyway...
 set nobackup
 set nowb
 set noswapfile
@@ -304,17 +272,6 @@ au BufNewFile,BufRead *.xaml setf xml
 
 " Set syntax textwidth for python files 
 au BufNewFile,BufRead *.py set tw=80
-
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
-" Visual mode pressing * or # searches for the current selection
-" Super useful! From an idea by Michael Naumann
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
-vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
@@ -361,7 +318,7 @@ set laststatus=2
 " Format the status line
 " set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 let g:lightline = {
-      \ 'colorscheme': 'solarized',
+      \ 'colorscheme': 'nord',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -370,6 +327,11 @@ let g:lightline = {
       \   'gitbranch': 'fugitive#head'
       \ },
       \ }
+
+"Add syntastic elements
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -387,6 +349,9 @@ if has("autocmd")
     autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
 
+" Fast saving
+nmap <leader>w :w!<cr>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -402,11 +367,19 @@ map <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
+
 " Remove the Windows ^M - when the encodings gets messed up
-" noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a markdown buffer for scribble
-" map <leader>x :e ~/buffer.md<cr>
+map <leader>x :e ~/buffer.md<cr>
 
 " alias the "anonymous" register as the * register 
 set clipboard=unnamed
