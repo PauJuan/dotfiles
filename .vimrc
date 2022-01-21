@@ -198,7 +198,7 @@ set background=dark
 
 " Set colorscheme depending on terminal or gui (font, size, etc.)
 if has("nvim") || has("gui_running")
-    set guifont=Consolas:h14
+    set guifont=Consolas:h12
     set guioptions-=m "remove menu bar
     set guioptions-=T "remove toolbar
     set guioptions-=e "use text-only tabline
@@ -263,9 +263,9 @@ set wrap "Wrap lines
 
 " Set up different indentation settings for specific files
 au BufNewFile,BufRead *.js, *.html, *.css, *.tex
-    \ set tabstop=2
-    \ set softtabstop=2
-    \ set shiftwidth=2
+      \ set tabstop=2
+      \ set softtabstop=2
+      \ set shiftwidth=2
 
 " Set syntax coloring for XAML
 au BufNewFile,BufRead *.xaml setf xml
@@ -422,3 +422,7 @@ endfunction
 function! CmdLine(str)
     call feedkeys(":" . a:str)
 endfunction 
+
+" Create specific marks for DAT files
+au BufNewFile,BufRead *.dat
+      let @q = '/General Datam1/\[2\] Determinandm2/\[3\] Reachesm3/\[4\] River Flowm4/\[5\] River Qualitym5/\[F\] Effluent Flow & Qualitymf/\[6\] River Quality Targetsm6/\[7\] Featuresm7gg'
