@@ -424,5 +424,8 @@ function! CmdLine(str)
 endfunction 
 
 " Create specific marks for DAT files
-au BufNewFile,BufRead *.dat
-      let @q = '/General Datam1/\[2\] Determinandm2/\[3\] Reachesm3/\[4\] River Flowm4/\[5\] River Qualitym5/\[F\] Effluent Flow & Qualitymf/\[6\] River Quality Targetsm6/\[7\] Featuresm7gg'
+augroup datafiles
+    au!
+    autocmd BufNewFile,BufRead *.dat let @q = "/General Data\<CR>m1/\\[2\\] Determinand\<CR>m2/\\[3\\] Reaches\<CR>m3/\\[4\\] River Flow\<CR>m4/\\[5\\] River Quality\<CR>m5/\\[F\\] Effluent Flow & Quality\<CR>mf/\\[6\\] River Quality Targets\<CR>m6/\\[7\\] Features\<CR>m7gg"
+    autocmd BufNewFile,BufRead *.dat normal! @q
+augroup END
