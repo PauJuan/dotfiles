@@ -27,29 +27,29 @@
 call plug#begin('~/.vim/plugged')
 
 " Insert desired plugins
-Plug 'tpope/vim-commentary'                     "Commenting code easily
-Plug 'tpope/vim-sensible'                       "Sensible .vimrc settings
-Plug 'tpope/vim-surround'                       "Edit tags and surroundings easily
-Plug 'tpope/vim-repeat'                         "Enhancing the dot key for plugins
-Plug 'tpope/vim-fugitive'                       "Awesome Git Wrapper
-Plug 'tpope/vim-dispatch'                       "Run servers with Vim (needed for other plugins)
-Plug 'tpope/vim-unimpaired'                     "Complementary pairs of mappings
-Plug 'tpope/vim-sleuth'                         "Automatic indent related configuration
-Plug 'scrooloose/nerdtree'                      "Explore filetrees nicely
-Plug 'itchyny/lightline.vim'                    "Practical and light status line
-Plug 'ervandew/supertab'                        "Autocompletion using tab
+Plug 'tpope/vim-commentary'                                  "Commenting code easily
+Plug 'tpope/vim-sensible'                                    "Sensible .vimrc settings
+Plug 'tpope/vim-surround'                                    "Edit tags and surroundings easily
+Plug 'tpope/vim-repeat'                                      "Enhancing the dot key for plugins
+Plug 'tpope/vim-dispatch'                                    "Run servers with Vim (needed for other plugins)
+Plug 'tpope/vim-unimpaired'                                  "Complementary pairs of mappings
+Plug 'tpope/vim-sleuth'                                      "Automatic indent related configuration
+Plug 'scrooloose/nerdtree'                                   "Explore filetrees nicely
+Plug 'itchyny/lightline.vim'                                 "Practical and light status line
+Plug 'ervandew/supertab'                                     "Autocompletion using tab
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'                         "Awesome fuzzy file finder
-Plug 'scrooloose/syntastic'                     "Syntax checking
-Plug 'arcticicestudio/nord-vim'                 "Nice cool colorscheme
-Plug 'jiangmiao/auto-pairs'                     "Insert or delete brackets, parens, quotes in pairs
-Plug 'majutsushi/tagbar'                        "Vim plugin that displays tags in a window, ordered by scope
-Plug 'davidhalter/jedi-vim'                     "Autocompletion for python
-" Plug 'neoclide/coc.nvim', {'branch': 'release'} "Make your Vim/Neovim as smart as VSCode.
-" Plug 'fannheyward/coc-pyright'                  "Autocompletion for python
-" Plug 'lifepillar/vim-solarized8'                "Nice colorscheme
-" Plug 'JuliaEditorSupport/julia-vim'           "Support for the Julia programming language
-" Plug 'cjrh/vim-conda'                         "Consider this one!
+Plug 'junegunn/fzf.vim'                                      "Awesome fuzzy file finder
+Plug 'jiangmiao/auto-pairs'                                  "Insert or delete brackets, parens, quotes in pairs
+Plug 'averms/black-nvim', {'do': ':UpdateRemotePlugins'}     "Code linter for Python
+Plug 'davidhalter/jedi-vim'                                  "Autocompletion for python
+Plug 'scrooloose/syntastic'                                  "Syntax checking
+Plug 'majutsushi/tagbar'                                     "Vim plugin that displays tags in a window, ordered by scope
+Plug 'arcticicestudio/nord-vim'                              "Nice cool colorscheme
+" Plug 'lifepillar/vim-solarized8'                           "Nice colorscheme
+" Plug 'tpope/vim-fugitive'                                  "Awesome Git Wrapper
+" Plug 'cjrh/vim-conda'                                      "Switch conda environments from Vim
+" Plug 'JuliaEditorSupport/julia-vim'                        "Support for the Julia programming language
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}            "Make your Vim/Neovim as smart as VSCode.
 
 " All of your Plugins must be added before the following line
 call plug#end()
@@ -57,14 +57,18 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Configure Python paths if using vim
+" Configure Python paths if using Vim
 " To get Python3 working in GVim, install GVim then install a python version that matches the 
 " build (e.g. 64 bit) and the version used to compile vim. It is also necessary to add 
 " to the Path the env folder, and set the PythonPath to the python library
-" let $Path = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38;".$Path
+" let $Path = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3;".$Path
 " let $PYTHONPATH = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\Lib"
+" let g:python3_host_prog = 'C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3;'
 
 " Configure fzf
+" Make Sure ag can be found in the path. If using cmder add all the software 
+" to the home folder AppData in folders and add those to the environment path
+
 " Set up commands like ctrl-p
 nmap <C-P> :Files<CR>
 nmap <C-B> :Buffers<CR>
@@ -75,11 +79,11 @@ nmap <C-T> :Tags<CR>
 let g:fzf_tags_command = 'ctags -R .'
 
 " Configure preview window
-let $PATH = "C:\\Users\\GARC7680\\AppData\\Local\\Programs\\Git\\usr\\bin;".$PATH
 let g:fzf_preview_window = ['right:50%:hidden', 'ctrl-s']
+
 " Set up tagbar
 nmap <F8> :TagbarToggle<CR>
-let g:tagbar_ctags_bin = 'C:\Data\Software\ctags58\ctags.exe'
+let g:tagbar_ctags_bin = 'C:\Users\GARC7680\AppData\Local\ctags\ctags.exe'
 
 " Set up Syntastic
 let g:syntastic_mode_map = { 'mode': 'passive',
@@ -110,6 +114,12 @@ let g:jedi#use_tabs_not_buffers = 1 "Make jedi-vim use tabs when going to a defi
 let g:jedi#smart_auto_mappings = 1 "jedi will automatically add the import statement
 set completeopt=menuone,longest,preview
 autocmd FileType python setlocal completeopt-=preview  " No need to display the full docstring upon completion
+
+" Set up black
+let g:black#settings = {
+    \ 'fast': 1,
+    \ 'line_length': 100
+\}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Neovim configuration
@@ -330,7 +340,7 @@ let g:lightline = {
 
 "Add syntastic elements
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
