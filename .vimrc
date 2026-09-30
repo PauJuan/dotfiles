@@ -3,7 +3,7 @@
 "   Pau Juan Garcia 
 "
 " Version:
-"   2.0 - 10/08/2020
+"   3.0 - 30/09/2026
 "
 " Sections:
 "   => Plugings
@@ -64,7 +64,9 @@ call plug#end()
 " let $Path = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3;".$Path
 " let $PYTHONPATH = "C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3\\envs\\py38\\Lib"
 " let g:python3_host_prog = 'C:\\Users\\GARC7680\\AppData\\Local\\Continuum\\anaconda3;'
-
+"
+" Confirgure Python path for nvim
+let g:python3_host_prog = 'C:\\Users\\GARC7680\\.conda\\envs\\main\\python.exe'
 " Configure fzf
 " Make Sure ag can be found in the path. If using cmder add all the software 
 " to the home folder AppData in folders and add those to the environment path
@@ -214,7 +216,7 @@ if has("nvim") || has("gui_running")
     set guioptions-=e "use text-only tabline
     set guioptions-=r  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
-    set guitablabel=%M\ %t
+    "set guitablabel=%M\ %t
     colorscheme nord
 else
     " set nocompatible
@@ -227,6 +229,10 @@ else
     " nnoremap <Char-0x07F> <BS>
     colorscheme nord
 endif
+
+" Cursor line and visual line highlight colour
+highlight CursorLine cterm=NONE ctermbg=236 guibg=#3a3a3a
+highlight Visual cterm=NONE ctermbg=240 guibg=#404040
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
@@ -340,7 +346,7 @@ let g:lightline = {
 
 "Add syntastic elements
 set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -395,7 +401,7 @@ map <leader>x :e ~/buffer.md<cr>
 set clipboard=unnamed
 
 " Toggle paste mode on and off
-set pastetoggle=<F2>
+"set pastetoggle=<F2>
 
 " Get count of word under cursor
 map <leader>* *<C-O>:%s///gn<CR>
